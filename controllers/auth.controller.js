@@ -1,9 +1,9 @@
-const httpStatus = require('http-status');
-const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const httpStatus = require('http-status');
 const expressJwt = require('express-jwt');
-const User = require('../models/user');
+const { validationResult } = require('express-validator');
 const { JWT_SECRET, JWT_EXPIRY_MINUTES } = require('../config/vars');
+const User = require('../models/user');
 
 exports.signup = (req, res, next) => {
   const errors = validationResult(req);
@@ -24,7 +24,6 @@ exports.signup = (req, res, next) => {
     }
     return res.status(httpStatus.OK).json({ user: userObj });
   });
-  return next();
 };
 
 exports.signin = (req, res, next) => {
@@ -60,7 +59,7 @@ exports.signin = (req, res, next) => {
       },
     });
   });
-  return next();
+  // return next();
 };
 
 exports.signnout = (req, res) => {
@@ -75,7 +74,9 @@ exports.isSignedIn = expressJwt({
 });
 
 exports.isAuthenticated = (req, res, next) => {
-  const checker = req.profile && req.auth && req.profile._id === req.auth._id;
+  console.log('auth', req.auth);
+  console.log('profile', req.profile);
+  const checker = req.profile && req.auth && String(req.profile._id) === req.auth._id;
   if (!checker) {
     return res.json({ status: httpStatus.UNAUTHORIZED, message: 'Access denied.' });
   }

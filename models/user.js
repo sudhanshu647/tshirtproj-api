@@ -38,7 +38,8 @@ const UserSchema = mongoose.Schema({
     type: Array,
     default: [],
   },
-}, { timeStamp: true });
+},
+{ timesStamp: true });
 
 UserSchema.virtual('password')
   .set(function (password) {
