@@ -21,6 +21,11 @@ const OrderSchema = new mongoose.Schema({
   products: [ProductCartSchema],
   transaction_id: {},
   amount: { type: Number },
+  status: {
+    type: String,
+    default: 'Recieved',
+    enum: ['Cancelled', 'Delivered', 'Shipped', 'Processing', 'Recieved'],
+  },
   address: {
     type: String,
     trim: true,
